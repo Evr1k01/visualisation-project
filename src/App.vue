@@ -1,47 +1,108 @@
-<script setup lang="ts">
-import HelloWorld from './components/HelloWorld.vue'
-import TheWelcome from './components/TheWelcome.vue'
-</script>
-
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />
-
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-    </div>
-  </header>
-
-  <main>
-    <TheWelcome />
-  </main>
+  <v-app>
+    <v-navigation-drawer>
+      <v-select
+          v-model="selectedItem"
+          :items="optionVariants"
+          item-title="title"
+          item-value="payload"
+          label="Option auswählen"
+          @update:modelValue="handleSelectedItem(selectedItem)"
+      ></v-select>
+      <cards ref="cardComponent"></cards>
+    </v-navigation-drawer>
+      <v-main>
+        <v-container fluid>
+          <v-row justify="center">
+            <v-col cols="12">
+              <v-chart :option="option.value"  style="height: 90vh"></v-chart>
+            </v-col>
+          </v-row>
+        </v-container>
+      </v-main>
+  </v-app>
 </template>
 
-<style scoped>
-header {
-  line-height: 1.5;
-}
+<script lang="ts">
+import worldJson from './tools/world.json'
+import {defineComponent, ref} from 'vue';
+import { use, registerMap } from 'echarts/core';
+import { MapChart, BarChart } from 'echarts/charts';
+import VueECharts from 'vue-echarts';
+import {getMapCountOption, getMapProportionOption, getBarOption} from "@/helpers/DataHelper";
+import type {IOption} from "@/types/IOption";
+import type {ISelectValueType} from "@/types/ISelectValueType";
+import ChartTypeEnum from "@/enums/ChartTypeEnum";
+import InfoCards from "@/components/InfoCards.vue";
+import {
+  GridComponent,
+  GeoComponent,
+  TitleComponent,
+  LegendComponent,
+  TooltipComponent,
+  VisualMapComponent
+} from 'echarts/components';
+import { SVGRenderer } from 'echarts/renderers';
 
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
+// Подключаем компоненты
+use([
+  MapChart,
+  BarChart,
+  VisualMapComponent,
+  GridComponent,
+  GeoComponent,
+  TitleComponent,
+  LegendComponent,
+  TooltipComponent,
+  SVGRenderer
+]);
 
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
+// Регистрируем карту мира
+registerMap('world', worldJson as any);
 
-  .logo {
-    margin: 0 2rem 0 0;
-  }
+export default defineComponent({
+  components: {
+    VChart: VueECharts,
+    Cards: InfoCards
+  },
 
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
-}
-</style>
+  setup() {
+
+    const cardComponent = ref<{ setCurrentCards: (cardType: string) => void } | null>()
+    const selectedItem = ref<ISelectValueType>(
+        {option: {type: ChartTypeEnum.Map, value: getMapCountOption()}, cardType: 'countCards'}
+    )
+
+    const option = ref<IOption>({
+      value: getMapCountOption(),
+      type: ChartTypeEnum.Map
+    });
+
+    const setCurrentOption = (item: IOption) => {
+      option.value = { ...item }
+    };
+
+    const handleSelectedItem = (item: ISelectValueType) => {
+      setCurrentOption(item.option)
+
+      if (cardComponent.value) {
+        cardComponent.value.setCurrentCards(item.cardType)
+      }
+    }
+
+    const optionVariants = ref<{title: string, payload: ISelectValueType}[]>([
+      {title: 'Anzahl von Handys - Karte', payload: {option: {type: ChartTypeEnum.Map, value: getMapCountOption()}, cardType: 'countCards'}},
+      {title: 'Anzahl von Handys - Bar', payload: {option: {type: ChartTypeEnum.Bar, value: getBarOption()}, cardType: 'countCards'}},
+      {title: 'Anteil von Handys und Bevölkerung - Karte', payload: {option: {type: ChartTypeEnum.Map, value: getMapProportionOption()}, cardType: 'humanProportionCards'}}
+    ])
+
+    return {
+      option,
+      selectedItem,
+      optionVariants,
+      cardComponent,
+      handleSelectedItem
+    };
+  },
+});
+</script>
