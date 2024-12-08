@@ -139,6 +139,8 @@ export const getBarOption = () => {
     }
 }
 
+// TODO Part of smartphones
+
 export const calculatePopulationPart = (): string => {
     const data = getChartData('phonesPopulationProportion')
     const filteredCount = data.reduce((count, item) => count + (item.value > 100 ? 1 : 0), 0);
