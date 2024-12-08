@@ -12,8 +12,8 @@ const getChartData = (key: keyof typeof chartTypes): IData[] => {
     return chartTypes[key] as IData[]
 }
 
-const textCount: string = 'Weltversorgung mit Handys (2017/2018)'
-const textProportion: string = 'Anzahl von Handys pro 100 Menschen (2017/2018)'
+const textCount: string = 'Anzahl von Handys nach Ländern (2017/2018)'
+const textProportion: string = 'Anzahl von Handys pro 100 Personen (2017/2018)'
 
 const tooltip: {trigger: string, showDelay?: number, transitionDuration?: 0.2} = {
     trigger: 'item',
@@ -34,7 +34,7 @@ export const getMapProportionOption = () => {
         visualMap: {
             left: 'right',
             min: 10,
-            max: 360,
+            max: 300,
             inRange: {
                 color: [
                     '#313695',
@@ -137,4 +137,10 @@ export const getBarOption = () => {
             // }
         }
     }
+}
+
+export const calculatePopulationPart = (): string => {
+    const data = getChartData('phonesPopulationProportion')
+    const filteredCount = data.reduce((count, item) => count + (item.value > 100 ? 1 : 0), 0);
+    return `${((filteredCount / data.length) * 100).toFixed(1)}%`
 }
