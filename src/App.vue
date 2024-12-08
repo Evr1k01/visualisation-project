@@ -57,7 +57,6 @@ use([
   SVGRenderer
 ]);
 
-// Регистрируем карту мира
 registerMap('world', worldJson as any);
 
 export default defineComponent({

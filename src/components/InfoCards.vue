@@ -17,6 +17,7 @@
 <script lang="ts">
 import {defineComponent, ref, onMounted} from "vue";
 import type {ICard} from "@/types/ICard";
+import {calculatePopulationPart} from "@/helpers/DataHelper";
 
 export default defineComponent({
 
@@ -32,7 +33,7 @@ export default defineComponent({
     const humanProportionCardsInfo = ref<ICard[]>([
       {text:'niedrigste Anzahl in St.', country: 'Eritrea', quantity:' 7'},
       {text:'größte Anzahl in St.', country: 'Macau', quantity: '360'},
-      {text:'Länder mit Anzahl mehr als 100', country: 'Anteil', quantity: '87.5%'}
+      {text:'Länder mit Anzahl mehr als 100', country: 'Anteil', quantity: calculatePopulationPart()}
     ])
 
     const cardOptions = {
