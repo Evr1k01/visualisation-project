@@ -72,12 +72,12 @@ export default defineComponent({
         {option: {type: ChartTypeEnum.Map, value: getMapCountOption()}, cardType: 'countCards'}
     )
 
-    const option = ref<IOption>({
+    const option = ref<IOption<ChartTypeEnum.Map | ChartTypeEnum.Bar>>({
       value: getMapCountOption(),
       type: ChartTypeEnum.Map
     });
 
-    const setCurrentOption = (item: IOption) => {
+    const setCurrentOption = (item: IOption<ChartTypeEnum.Map | ChartTypeEnum.Bar>) => {
       option.value = { ...item }
     };
 
