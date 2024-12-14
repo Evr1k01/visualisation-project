@@ -29,7 +29,7 @@ import {defineComponent, ref} from 'vue';
 import { use, registerMap } from 'echarts/core';
 import { MapChart, BarChart } from 'echarts/charts';
 import VueECharts from 'vue-echarts';
-import {getMapCountOption, getMapProportionOption, getBarOption} from "@/helpers/DataHelper";
+import {getMapCountOption, getMapProportionOption, getBarOption, getBarSmartphonesOption} from "@/helpers/DataHelper";
 import type {IOption} from "@/types/IOption";
 import type {ISelectValueType} from "@/types/ISelectValueType";
 import ChartTypeEnum from "@/enums/ChartTypeEnum";
@@ -92,7 +92,8 @@ export default defineComponent({
     const optionVariants = ref<{title: string, payload: ISelectValueType}[]>([
       {title: 'Anzahl von Handys - Karte', payload: {option: {type: ChartTypeEnum.Map, value: getMapCountOption()}, cardType: 'countCards'}},
       {title: 'Anzahl von Handys - Bar', payload: {option: {type: ChartTypeEnum.Bar, value: getBarOption()}, cardType: 'countCards'}},
-      {title: 'Anteil von Handys und Bevölkerung - Karte', payload: {option: {type: ChartTypeEnum.Map, value: getMapProportionOption()}, cardType: 'humanProportionCards'}}
+      {title: 'Anteil von Handys und Bevölkerung - Karte', payload: {option: {type: ChartTypeEnum.Map, value: getMapProportionOption()}, cardType: 'humanProportionCards'}},
+      {title: 'Anteil von Smartphones', payload: {option: {type: ChartTypeEnum.Bar, value: getBarSmartphonesOption()}, cardType: 'smartphonesProportionCards'}}
     ])
 
     return {
