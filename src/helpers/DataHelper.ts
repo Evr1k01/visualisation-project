@@ -1,6 +1,7 @@
 import phonesCount from '../tools/phonesCountData.json'
 import populationProportion from '../tools/populationAndPhonesProportionData.json'
 import type {IData} from "@/types/IData";
+import {countries, smartphones, mobilePhones} from "@/tools/smartphonesProportion";
 import LinkEnum from "@/enums/LinkEnum";
 
 const chartTypes = {
@@ -14,6 +15,7 @@ const getChartData = (key: keyof typeof chartTypes): IData[] => {
 
 const textCount: string = 'Anzahl von Handys nach Ländern (2017/2018)'
 const textProportion: string = 'Anzahl von Handys pro 100 Personen (2017/2018)'
+const textSmartphonesProportion: string = 'Anteil von Smartphones (50 Länder)'
 
 const tooltip: {trigger: string, showDelay?: number, transitionDuration?: 0.2} = {
     trigger: 'item',
@@ -136,6 +138,47 @@ export const getBarOption = () => {
             //     })
             // }
         }
+    }
+}
+
+export const getBarSmartphonesOption = () => {
+    return {
+        title: {
+            text: textSmartphonesProportion
+        },
+        tooltip: {
+            trigger: 'axis',
+            axisPointer: {
+                type: 'shadow'
+            }
+        },
+        legend: {},
+        grid: {
+            left: '3%',
+            right: '4%',
+            bottom: '3%',
+            containLabel: true
+        },
+        xAxis: {
+            type: 'value',
+            boundaryGap: [0, 0.01]
+        },
+        yAxis: {
+            type: 'category',
+            data: countries
+        },
+        series: [
+            {
+                name: 'Smartphones %',
+                type: 'bar',
+                data: smartphones
+            },
+            {
+                name: 'Mobile phones %',
+                type: 'bar',
+                data: mobilePhones
+            }
+        ]
     }
 }
 

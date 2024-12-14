@@ -36,9 +36,15 @@ export default defineComponent({
       {text:'Länder mit Anzahl mehr als 100', country: 'Anteil', quantity: calculatePopulationPart()}
     ])
 
+    const smartphonesProportionCardsInfo = ref<ICard[]>([
+      {text:'der niedrigste Anteil in %', country: 'Ethiopia', quantity: '11.2%'},
+      {text:'der größte Anteil in %', country: 'Ver. Königreich', quantity: '82.2%'},
+    ])
+
     const cardOptions = {
       countCards: countCardsInfo,
-      humanProportionCards: humanProportionCardsInfo
+      humanProportionCards: humanProportionCardsInfo,
+      smartphonesProportionCards: smartphonesProportionCardsInfo
     }
 
     const setCurrentCards = (key: keyof typeof cardOptions) => cards.value = [...cardOptions[key].value]
