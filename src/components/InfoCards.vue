@@ -37,7 +37,7 @@ export default defineComponent({
     ])
 
     const smartphonesProportionCardsInfo = ref<ICard[]>([
-      {text:'der niedrigste Anteil in %', country: 'Ethiopia', quantity: '11.2%'},
+      {text:'der niedrigste Anteil in %', country: 'Äthiopien', quantity: '11.2%'},
       {text:'der größte Anteil in %', country: 'Ver. Königreich', quantity: '82.2%'},
     ])
 
