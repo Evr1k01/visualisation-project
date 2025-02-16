@@ -1,5 +1,5 @@
 export interface ICard {
     text: string,
     country: string,
-    quantity: string
+    quantity: string|number
 }

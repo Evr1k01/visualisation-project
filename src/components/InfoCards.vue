@@ -17,27 +17,35 @@
 <script lang="ts">
 import {defineComponent, ref, onMounted} from "vue";
 import type {ICard} from "@/types/ICard";
-import {calculatePopulationPart} from "@/helpers/DataHelper";
+import {calculatePopulationPart, findSmartphonesMinMax, gdpSmartphoneCorrelation, getLandGdp} from "@/helpers/DataHelper";
+import type {ICalculation} from "@/types/ICalculation";
 
 export default defineComponent({
 
   setup() {
 
     const cards = ref<ICard[]>()
+    const smartphonesProportionMinMax = ref<ICalculation[]>(findSmartphonesMinMax('phonesPopulationProportion'))
+    const smartphonesCountMinMax = ref<ICalculation[]>(findSmartphonesMinMax('count').map(
+        (item: ICalculation) => ({...item, count: item.count.toLocaleString('de-DE')})
+    ))
 
     const countCardsInfo = ref<ICard[]>([
-      {text:'niedrigste Anzahl in St.', country: 'Tuvalu', quantity:' 7.600'},
-      {text:'größte Anzahl in St.', country: 'China', quantity: '1.649.301.700'}
+      {text:'niedrigste Anzahl in St.', country: smartphonesCountMinMax.value[1]['name'], quantity:smartphonesCountMinMax.value[1]['count']},
+      {text:'größte Anzahl in St.', country: smartphonesCountMinMax.value[0]['name'], quantity: smartphonesCountMinMax.value[0]['count']}
     ])
 
     const humanProportionCardsInfo = ref<ICard[]>([
-      {text:'niedrigste Anzahl in St.', country: 'Eritrea', quantity:' 7'},
-      {text:'größte Anzahl in St.', country: 'Macau', quantity: '360'},
-      {text:'Länder mit Anzahl mehr als 100', country: 'Anteil', quantity: calculatePopulationPart()}
+      {text:'niedrigste Anzahl in St.', country: smartphonesProportionMinMax.value[1]['name'], quantity: smartphonesProportionMinMax.value[1]['count']},
+      {text:'größte Anzahl in St.', country: smartphonesProportionMinMax.value[0]['name'], quantity: smartphonesProportionMinMax.value[0]['count']},
+      {text:'Platz anhand BIP pro Kopf', country: smartphonesProportionMinMax.value[1]['name'], quantity: getLandGdp(smartphonesProportionMinMax.value[1]['name'])},
+      {text:'Platz anhand BIP pro Kopf', country: smartphonesProportionMinMax.value[0]['name'], quantity: getLandGdp(smartphonesProportionMinMax.value[0]['name'])},
+      {text:'Mehr als 100 S. pro 100 M.', country: 'Anteil', quantity: calculatePopulationPart()},
+      {text:'Smartphones pro 100 M. und BIP', country: 'Korrelation', quantity: gdpSmartphoneCorrelation()}
     ])
 
     const smartphonesProportionCardsInfo = ref<ICard[]>([
-      {text:'der niedrigste Anteil in %', country: 'Ethiopia', quantity: '11.2%'},
+      {text:'der niedrigste Anteil in %', country: 'Äthiopien', quantity: '11.2%'},
       {text:'der größte Anteil in %', country: 'Ver. Königreich', quantity: '82.2%'},
     ])
 
