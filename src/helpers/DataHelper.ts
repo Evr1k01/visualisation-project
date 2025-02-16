@@ -1,8 +1,10 @@
 import phonesCount from '../tools/phonesCountData.json'
 import populationProportion from '../tools/populationAndPhonesProportionData.json'
+import domesticProducts from '../tools/GDP.json'
 import type {IData} from "@/types/IData";
 import {countries, smartphones, mobilePhones} from "@/tools/smartphonesProportion";
 import LinkEnum from "@/enums/LinkEnum";
+import type {ICalculation} from "@/types/ICalculation";
 
 const chartTypes = {
     count: phonesCount,
@@ -14,7 +16,7 @@ const getChartData = (key: keyof typeof chartTypes): IData[] => {
 }
 
 const textCount: string = 'Anzahl von Handys nach Ländern (2017/2018)'
-const textProportion: string = 'Anzahl von Handys pro 100 Personen (2017/2018)'
+const textProportion: string = 'Anzahl von Handys pro 100 Personen (2017/2018) und Platz anhand BIP pro Kopf (nominal)'
 const textSmartphonesProportion: string = 'Anteil von Smartphones (50 Länder)'
 
 const tooltip: {trigger: string, showDelay?: number, transitionDuration?: 0.2} = {
@@ -57,10 +59,16 @@ export const getMapProportionOption = () => {
         },
         series: [
             {
-                name: 'Anzahl in St.',
+                name: `'Anzahl in St.'`,
                 type: 'map',
                 map: 'world',
                 data: getChartData('phonesPopulationProportion'),
+                tooltip: {
+                    formatter: ((item: IData) => {
+                        const customData = `${item.name}: <b>${Number.isNaN(item.value) ? '-' : item.value}</b>`;
+                        return `Anzahl: ${customData}; BIP Platz: <b>${getLandGDPPlace(item.name)}</b>`;
+                    })
+                    }
             },
         ],
     }
@@ -186,4 +194,57 @@ export const calculatePopulationPart = (): string => {
     const data = getChartData('phonesPopulationProportion')
     const filteredCount = data.reduce((count, item) => count + (item.value > 100 ? 1 : 0), 0);
     return `${((filteredCount / data.length) * 100).toFixed(1)}%`
+}
+
+export const findSmartphonesMinMax = (key: 'phonesPopulationProportion' | 'count'): ICalculation[] => {
+    const data = getChartData(key)
+    if (!data.length) return [{name: 'none', count: NaN}]
+
+    let max = data[0]
+    let min = data[0]
+
+    data.forEach((item: IData) => {
+        if (item.value > max.value) max = item
+        if (item.value < min.value) min = item
+    });
+
+    return [
+        { name: max.name, count: max.value },
+        { name: min.name, count: min.value }
+    ];
+};
+
+export const getLandGdp = (land: string): number => {
+    return domesticProducts.indexOf(domesticProducts.find(item => item.name === land) as IData)
+}
+
+export const gdpSmartphoneCorrelation = (): string => {
+
+    const gdp = domesticProducts.map(item => item.value)
+    const phones = populationProportion.map(item => item.value);
+
+    const meanGdp = gdp.reduce((sum, val) => sum + val, 0) / gdp.length;
+    const meanPhones = phones.reduce((sum, val) => sum + val, 0) / gdp.length;
+
+    let numerator = 0;
+    let sumGdpSq = 0;
+    let sumPhonesSq = 0;
+
+    for (let i = 0; i < gdp.length; i++) {
+        const gdpDiff = gdp[i] - meanGdp;
+        const phonesDiff = phones[i] - meanPhones;
+
+        numerator += gdpDiff * phonesDiff;
+        sumGdpSq += gdpDiff ** 2;
+        sumPhonesSq += phonesDiff ** 2;
+    }
+
+    const denominator = Math.sqrt(sumGdpSq) * Math.sqrt(sumPhonesSq);
+
+    return (numerator / denominator).toFixed(1);
+}
+
+const getLandGDPPlace = (land: string): number|'-' => {
+    const index = domesticProducts.findIndex(item => item.name === land)
+    return index < 1 ? '-' : index
 }
