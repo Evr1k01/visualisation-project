@@ -215,7 +215,7 @@ export const findSmartphonesMinMax = (key: 'phonesPopulationProportion' | 'count
 };
 
 export const getLandGdp = (land: string): number => {
-    return domesticProducts.indexOf(domesticProducts.find(item => item.name === land) as IData)
+    return domesticProducts.indexOf(domesticProducts.find(item => item.name === land) as IData) + 1
 }
 
 export const gdpSmartphoneCorrelation = (): string => {
@@ -245,6 +245,6 @@ export const gdpSmartphoneCorrelation = (): string => {
 }
 
 const getLandGDPPlace = (land: string): number|'-' => {
-    const index = domesticProducts.findIndex(item => item.name === land)
+    const index = domesticProducts.findIndex(item => item.name === land) + 1
     return index < 1 ? '-' : index
 }
