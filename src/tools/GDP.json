@@ -151,7 +151,7 @@
   {"name": "India", "value": 2497},
   {"name": "Mauritania", "value": 2404},
   {"name": "Ghana", "value": 2322},
-  {"name": "Republic of the Congo", "value": 2309},
+  {"name": "Congo", "value": 2309},
   {"name": "Kiribati", "value": 2231},
   {"name": "Solomon Islands", "value": 2125},
   {"name": "Zimbabwe", "value": 2119},
@@ -193,8 +193,8 @@
   {"name": "Malawi", "value": 558},
   {"name": "Yemen", "value": 552},
   {"name": "Madagascar", "value": 530},
-  {"name": "Central African Republic", "value": 511},
-  {"name": "South Sudan", "value": 478},
+  {"name": "Central African Rep.", "value": 511},
+  {"name": "S. Sudan", "value": 478},
   {"name": "Afghanistan", "value": 411},
   {"name": "Burundi", "value": 327}
 ]
