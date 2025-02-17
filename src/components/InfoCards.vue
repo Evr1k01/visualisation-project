@@ -7,7 +7,7 @@
         </template>
 
         <template v-slot:subtitle>
-          {{card.text}}
+          <div class="text-pre-line">{{card.text}}</div>
         </template>
       </v-card>
     </v-col>
@@ -17,7 +17,7 @@
 <script lang="ts">
 import {defineComponent, ref, onMounted} from "vue";
 import type {ICard} from "@/types/ICard";
-import {calculatePopulationPart, findSmartphonesMinMax, gdpSmartphoneCorrelation, getLandGdp} from "@/helpers/DataHelper";
+import {calculatePopulationPart, findSmartphonesMinMax, gdpSmartphoneCorrelation, getLandGdp, incomeSmartphoneCorrelation} from "@/helpers/DataHelper";
 import type {ICalculation} from "@/types/ICalculation";
 
 export default defineComponent({
@@ -41,12 +41,13 @@ export default defineComponent({
       {text:'Platz anhand BIP pro Kopf', country: smartphonesProportionMinMax.value[1]['name'], quantity: getLandGdp(smartphonesProportionMinMax.value[1]['name'])},
       {text:'Platz anhand BIP pro Kopf', country: smartphonesProportionMinMax.value[0]['name'], quantity: getLandGdp(smartphonesProportionMinMax.value[0]['name'])},
       {text:'Mehr als 100 S. pro 100 M.', country: 'Anteil', quantity: calculatePopulationPart()},
-      {text:'Smartphones pro 100 M. und BIP', country: 'Korrelation', quantity: gdpSmartphoneCorrelation()}
+      {text:'Smartphones pro 100 M. und Bruttoinlandsprodukt \n (187 Länder)', country: 'Korrelation', quantity: gdpSmartphoneCorrelation()}
     ])
 
     const smartphonesProportionCardsInfo = ref<ICard[]>([
       {text:'der niedrigste Anteil in %', country: 'Äthiopien', quantity: '11.2%'},
       {text:'der größte Anteil in %', country: 'Ver. Königreich', quantity: '82.2%'},
+      {text:'Anteil von Smartphones und Durchschnittseinkommen \n (40 Länder)', country: 'Korrelation', quantity: incomeSmartphoneCorrelation()},
     ])
 
     const cardOptions = {

@@ -1,6 +1,7 @@
 import phonesCount from '../tools/phonesCountData.json'
 import populationProportion from '../tools/populationAndPhonesProportionData.json'
 import domesticProducts from '../tools/GDP.json'
+import incomeSize from '../tools/IncomeSize.json'
 import type {IData} from "@/types/IData";
 import {countries, smartphones, mobilePhones} from "@/tools/smartphonesProportion";
 import LinkEnum from "@/enums/LinkEnum";
@@ -215,36 +216,59 @@ export const findSmartphonesMinMax = (key: 'phonesPopulationProportion' | 'count
 };
 
 export const getLandGdp = (land: string): number => {
-    return domesticProducts.indexOf(domesticProducts.find(item => item.name === land) as IData)
+    return domesticProducts.indexOf(domesticProducts.find(item => item.name === land) as IData) + 1
 }
 
 export const gdpSmartphoneCorrelation = (): string => {
 
-    const gdp = domesticProducts.map(item => item.value)
-    const phones = populationProportion.map(item => item.value);
+    const filteredProducts = domesticProducts
+        .filter(prod => populationProportion.some(pop => pop.name === prod.name))
+        .sort((a, b) => a.name.localeCompare(b.name))
+        .map(item => item.value)
 
-    const meanGdp = gdp.reduce((sum, val) => sum + val, 0) / gdp.length;
-    const meanPhones = phones.reduce((sum, val) => sum + val, 0) / gdp.length;
+    const filteredProportion = populationProportion
+        .filter(pop => domesticProducts.some(prod => prod.name === pop.name))
+        .sort((a, b) => a.name.localeCompare(b.name))
+        .map(item => item.value)
+
+    return calculateCorrelation(filteredProducts, filteredProportion)
+}
+
+export const incomeSmartphoneCorrelation = (): string => {
+    const filteredIncomes = incomeSize.map(item => item.value)
+    let filteredSmartphones: number[] = []
+    countries.forEach((item) => {
+        if (incomeSize.some(income => income.name === item)) {
+            filteredSmartphones.push(smartphones[countries.indexOf(item)])
+        }
+    })
+
+    return calculateCorrelation(filteredIncomes, filteredSmartphones)
+}
+
+const calculateCorrelation = (arr1: number[], arr2: number[]) => {
+    const meanArr1 = arr1.reduce((sum, val) => sum + val, 0) / arr1.length;
+    const meanArr2 = arr2.reduce((sum, val) => sum + val, 0) / arr2.length;
 
     let numerator = 0;
-    let sumGdpSq = 0;
-    let sumPhonesSq = 0;
+    let sumArr1Sq = 0;
+    let sumArr2Sq = 0;
 
-    for (let i = 0; i < gdp.length; i++) {
-        const gdpDiff = gdp[i] - meanGdp;
-        const phonesDiff = phones[i] - meanPhones;
+    for (let i = 0; i < arr1.length; i++) {
+        const arr1Diff = arr1[i] - meanArr1;
+        const arr2Diff = arr2[i] - meanArr2;
 
-        numerator += gdpDiff * phonesDiff;
-        sumGdpSq += gdpDiff ** 2;
-        sumPhonesSq += phonesDiff ** 2;
+        numerator += arr1Diff * arr2Diff;
+        sumArr1Sq += arr1Diff ** 2;
+        sumArr2Sq += arr2Diff ** 2;
     }
 
-    const denominator = Math.sqrt(sumGdpSq) * Math.sqrt(sumPhonesSq);
+    const denominator = Math.sqrt(sumArr1Sq) * Math.sqrt(sumArr2Sq);
 
     return (numerator / denominator).toFixed(1);
 }
 
 const getLandGDPPlace = (land: string): number|'-' => {
-    const index = domesticProducts.findIndex(item => item.name === land)
+    const index = domesticProducts.findIndex(item => item.name === land) + 1
     return index < 1 ? '-' : index
 }
