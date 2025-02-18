@@ -1,33 +1,38 @@
-# project
+# Visualisation Project
 
-This template should help get you started developing with Vue 3 in Vite.
-
-## Recommended IDE Setup
-
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
-
-## Type Support for `.vue` Imports in TS
-
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
-
-## Customize configuration
-
-See [Vite Configuration Reference](https://vite.dev/config/).
+Diese Vorlage soll Ihnen helfen, sich einen Überblick über das Projekt zu verschaffen.
 
 ## Project Setup
+Zum Start des Projekts müssen folgende Befehle ausgeführt werden:
 
+_1. Erst müssen alle Abhängigkeiten installiert werden:_
 ```sh
 npm install
 ```
 
-### Compile and Hot-Reload for Development
+_2. Der Code muss kompiliert werden:_
 
 ```sh
 npm run dev
 ```
 
-### Type-Check, Compile and Minify for Production
+Nach dem Start lässt sich die Seite unter folgendem Link aufrufen (Localhost): 
+<a href="http://localhost:5173/visualisation-project/">Link</a>
 
-```sh
-npm run build
-```
+## Project Guide
+So sieht die erste Seite aus, auf die man beim Afruf der URL-Adresse landet, falls die vorherigen Befehle ausgeführt wurden: \
+<img alt="Initial Page" height="400" src="./src/assets/images/InitialPage.png" width="775"/>
+
+Die Anwendung besteht aus 4 Seiten, die jeweils eine Art von Diagramm enthalten,
+das auf statistischen Daten beruht.  
+Alle Grafiken beziehen sich auf das Thema Smartphone-Besitz, und beleuchten es aus verschiedenen Blinkwinkeln.
+
+Der **[Hauptteil](./src/assets/images/MainPart.png)** der Seite wird immer von einer Visualisierung (Landkarte, Balkendiagramm) eingenommen.
+
+Auf der linken Seite, in dem **[Sidebar](./src/assets/images/Sidebar.png)**, werden auf jeder Seite Kennzahlen dargestellt, die Daten aus dem Hauptsatz hervorheben. \
+Dazu gehören bspw. _min_ oder _max_ Werte, oder _Korellation_ zwischen zwei Werten (Seite 3 und 4)
+
+Der **[Combobox](./src/assets/images/Combobox.png)** ist dafür vorgesehen, die Seiten zu wechseln.
+
+
+

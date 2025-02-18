@@ -40,14 +40,14 @@ export default defineComponent({
       {text:'größte Anzahl in St.', country: smartphonesProportionMinMax.value[0]['name'], quantity: smartphonesProportionMinMax.value[0]['count']},
       {text:'Platz anhand BIP pro Kopf', country: smartphonesProportionMinMax.value[1]['name'], quantity: getLandGdp(smartphonesProportionMinMax.value[1]['name'])},
       {text:'Platz anhand BIP pro Kopf', country: smartphonesProportionMinMax.value[0]['name'], quantity: getLandGdp(smartphonesProportionMinMax.value[0]['name'])},
-      {text:'Mehr als 100 S. pro 100 M.', country: 'Anteil', quantity: calculatePopulationPart()},
-      {text:'Smartphones pro 100 M. und Bruttoinlandsprodukt \n (187 Länder)', country: 'Korrelation', quantity: gdpSmartphoneCorrelation()}
+      {text:'Mehr als 100 H. pro 100 M.', country: 'Anteil', quantity: calculatePopulationPart()},
+      {text:'Anzahl von Handys pro 100 M. und Bruttoinlandsprodukt in $ \n (187 Länder)', country: 'Korrelation', quantity: gdpSmartphoneCorrelation()}
     ])
 
     const smartphonesProportionCardsInfo = ref<ICard[]>([
       {text:'der niedrigste Anteil in %', country: 'Äthiopien', quantity: '11.2%'},
       {text:'der größte Anteil in %', country: 'Ver. Königreich', quantity: '82.2%'},
-      {text:'Anteil von Smartphones und Durchschnittseinkommen \n (40 Länder)', country: 'Korrelation', quantity: incomeSmartphoneCorrelation()},
+      {text:'Anteil von Smartphones und Durchschnittseinkommen in $ \n (40 Länder)', country: 'Korrelation', quantity: incomeSmartphoneCorrelation()},
     ])
 
     const cardOptions = {
