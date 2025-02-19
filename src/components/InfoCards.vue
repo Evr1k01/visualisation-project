@@ -17,7 +17,7 @@
 <script lang="ts">
 import {defineComponent, ref, onMounted} from "vue";
 import type {ICard} from "@/types/ICard";
-import {calculatePopulationPart, findSmartphonesMinMax, gdpSmartphoneCorrelation, getLandGdp, incomeSmartphoneCorrelation} from "@/helpers/DataHelper";
+import {calculatePopulationPart, findSmartphonesMinMax, gdpSmartphoneCorrelation, getLandGdp, incomeSmartphoneCorrelation, populationsPhonesCountCorrelation} from "@/helpers/DataHelper";
 import type {ICalculation} from "@/types/ICalculation";
 
 export default defineComponent({
@@ -32,7 +32,8 @@ export default defineComponent({
 
     const countCardsInfo = ref<ICard[]>([
       {text:'niedrigste Anzahl in St.', country: smartphonesCountMinMax.value[1]['name'], quantity:smartphonesCountMinMax.value[1]['count']},
-      {text:'größte Anzahl in St.', country: smartphonesCountMinMax.value[0]['name'], quantity: smartphonesCountMinMax.value[0]['count']}
+      {text:'größte Anzahl in St.', country: smartphonesCountMinMax.value[0]['name'], quantity: smartphonesCountMinMax.value[0]['count']},
+      {text:'Anzahl von Handys und Bevölkerungszahl \n (176 Länder)', country: 'Korrelation', quantity: populationsPhonesCountCorrelation()}
     ])
 
     const humanProportionCardsInfo = ref<ICard[]>([
@@ -41,7 +42,7 @@ export default defineComponent({
       {text:'Platz anhand BIP pro Kopf', country: smartphonesProportionMinMax.value[1]['name'], quantity: getLandGdp(smartphonesProportionMinMax.value[1]['name'])},
       {text:'Platz anhand BIP pro Kopf', country: smartphonesProportionMinMax.value[0]['name'], quantity: getLandGdp(smartphonesProportionMinMax.value[0]['name'])},
       {text:'Mehr als 100 H. pro 100 M.', country: 'Anteil', quantity: calculatePopulationPart()},
-      {text:'Anzahl von Handys pro 100 M. und Bruttoinlandsprodukt in $ \n (187 Länder)', country: 'Korrelation', quantity: gdpSmartphoneCorrelation()}
+      {text:'Anzahl von Handys pro 100 M. und Bruttoinlandsprodukt in $\n (187 Länder)', country: 'Korrelation', quantity: gdpSmartphoneCorrelation()}
     ])
 
     const smartphonesProportionCardsInfo = ref<ICard[]>([
