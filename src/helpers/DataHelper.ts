@@ -1,4 +1,5 @@
 import phonesCount from '../tools/phonesCountData.json'
+import populationCount from '../tools/Population.json'
 import populationProportion from '../tools/populationAndPhonesProportionData.json'
 import domesticProducts from '../tools/GDP.json'
 import incomeSize from '../tools/IncomeSize.json'
@@ -17,7 +18,7 @@ const getChartData = (key: keyof typeof chartTypes): IData[] => {
 }
 
 const textCount: string = 'Anzahl von Handys nach Ländern (2017/2018)'
-const textProportion: string = 'Anzahl von Handys pro 100 Personen (2017/2018) und Platz anhand BIP pro Kopf (nominal)'
+const textProportion: string = 'Anzahl von Handys pro 100 Personen (2017/2018)'
 const textSmartphonesProportion: string = 'Anteil von Smartphones (50 Länder)'
 
 const tooltip: {trigger: string, showDelay?: number, transitionDuration?: 0.2} = {
@@ -60,16 +61,15 @@ export const getMapProportionOption = () => {
         },
         series: [
             {
-                name: `'Anzahl in St.'`,
                 type: 'map',
                 map: 'world',
                 data: getChartData('phonesPopulationProportion'),
                 tooltip: {
                     formatter: ((item: IData) => {
                         const customData = `${item.name}: <b>${Number.isNaN(item.value) ? '-' : item.value}</b>`;
-                        return `Anzahl: ${customData}; BIP Platz: <b>${getLandGDPPlace(item.name)}</b>`;
+                        return `Anzahl in St. - ${customData}; BIP pro Kopf - Platz: <b>${getLandGDPPlace(item.name)}</b>`;
                     })
-                    }
+                }
             },
         ],
     }
@@ -109,10 +109,15 @@ export const getMapCountOption = () => {
         },
         series: [
             {
-                name: 'Anzahl in St.',
                 type: 'map',
                 map: 'world',
                 data: getChartData('count'),
+                tooltip: {
+                    formatter: ((item: IData) => {
+                        const customData = `${item.name}: <b>${Number.isNaN(item.value) ? '-' : item.value.toLocaleString('DE-de')}</b>`;
+                        return `Anzahl von H. in St. - ${customData}; Bevölkerungszahl (2018): <b>${getCountryPopulationCount(item.name)}</b>`;
+                    })
+                }
             },
         ],
     }
@@ -219,6 +224,23 @@ export const getLandGdp = (land: string): number => {
     return domesticProducts.indexOf(domesticProducts.find(item => item.name === land) as IData) + 1
 }
 
+// population count AND number of phones
+export const populationsPhonesCountCorrelation = (): string => {
+
+    const filteredPopulation = populationCount
+        .filter(pop => phonesCount.some(phon => pop.name === phon.name))
+        .sort((a, b) => a.name.localeCompare(b.name))
+        .map(item => item.value)
+
+    const filteredPhones = phonesCount
+        .filter(pop => populationCount.some(prod => prod.name === pop.name))
+        .sort((a, b) => a.name.localeCompare(b.name))
+        .map(item => item.value)
+
+    return calculateCorrelation(filteredPopulation, filteredPhones)
+}
+
+// GDP per person in $ AND number of smartphones per 100 people
 export const gdpSmartphoneCorrelation = (): string => {
 
     const filteredProducts = domesticProducts
@@ -234,6 +256,7 @@ export const gdpSmartphoneCorrelation = (): string => {
     return calculateCorrelation(filteredProducts, filteredProportion)
 }
 
+// average income per Country AND smartphones proportion
 export const incomeSmartphoneCorrelation = (): string => {
     const filteredIncomes = incomeSize.map(item => item.value)
     let filteredSmartphones: number[] = []
@@ -271,4 +294,9 @@ const calculateCorrelation = (arr1: number[], arr2: number[]) => {
 const getLandGDPPlace = (land: string): number|'-' => {
     const index = domesticProducts.findIndex(item => item.name === land) + 1
     return index < 1 ? '-' : index
+}
+
+const getCountryPopulationCount = (land: string): string => {
+    const item = (populationCount as IData[]).find(item => item.name === land)
+    return item?.value.toLocaleString('DE-de') ?? '-'
 }
