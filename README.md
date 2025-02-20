@@ -24,7 +24,7 @@ So sieht die erste Seite aus, auf die man beim Aufruf der URL-Adresse landet, fa
 <img alt="Initial Page" height="400" src="./src/assets/images/InitialPage.png" width="775"/>
 
 Die Anwendung besteht aus 4 Seiten, die jeweils eine Art von Diagramm enthalten,
-das auf statistischen Daten beruht. Alle Grafiken beziehen sich auf das Thema Smartphone-Besitz, und beleuchten es aus verschiedenen Blinkwinkeln.
+das auf statistischen Daten beruht. Alle Grafiken beziehen sich auf das Thema Handy-Besitz, und beleuchten es aus verschiedenen Blickwinkeln.
 
 Der **[Hauptteil](./src/assets/images/MainPart.png)** der Seite wird immer von einer Visualisierung (Landkarte, Balkendiagramm) eingenommen.
 
