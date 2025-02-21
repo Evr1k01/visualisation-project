@@ -145,12 +145,6 @@ export const getBarOption = () => {
             id: 'count',
             data: getChartData('count').map((item) => item.value),
             universalTransition: true,
-            // tooltip: {
-            //     formatter: ((item: IData) => {
-            //         const customData = `${item.name}: <b>${item.value}</b>`;
-            //         return `Anzahl von Handys <br> ${customData}`;
-            //     })
-            // }
         }
     }
 }
