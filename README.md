@@ -28,7 +28,7 @@ das auf statistischen Daten beruht. Alle Grafiken beziehen sich auf das Thema Ha
 
 Der **[Hauptteil](./src/assets/images/MainPart.png)** der Seite wird immer von einer Visualisierung (Landkarte, Balkendiagramm) eingenommen.
 
-Auf der linken Seite, in dem **[Sidebar](./src/assets/images/Sidebar.png)**, werden auf jeder Seite Kennzahlen dargestellt, die Daten aus dem Hauptsatz hervorheben. Dazu gehören bspw. _min_ oder _max_ Werte, oder _Korrelation_ zwischen zwei Werten
+Auf der linken Seite, in dem **[Sidebar](./src/assets/images/Sidebar.png)**, werden auf jeder Seite Kennzahlen dargestellt, die Daten aus dem Hauptsatz hervorheben. Dazu gehören bspw. _min_ oder _max_ Werte, oder _Korrelation_ zwischen zwei Werten.
 
 Der **[Combobox](./src/assets/images/Combobox.png)** ist dafür vorgesehen, die Seiten zu wechseln.
 
