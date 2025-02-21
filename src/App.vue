@@ -90,8 +90,8 @@ export default defineComponent({
     }
 
     const optionVariants = ref<{title: string, payload: ISelectValueType}[]>([
-      {title: 'Anzahl von Handys - Karte', payload: {option: {type: ChartTypeEnum.Map, value: getMapCountOption()}, cardType: 'countCards'}},
-      {title: 'Anzahl von Handys - Bar', payload: {option: {type: ChartTypeEnum.Bar, value: getBarOption()}, cardType: 'countCards'}},
+      {title: 'Anzahl der Handys - Karte', payload: {option: {type: ChartTypeEnum.Map, value: getMapCountOption()}, cardType: 'countCards'}},
+      {title: 'Anzahl der Handys - Bar', payload: {option: {type: ChartTypeEnum.Bar, value: getBarOption()}, cardType: 'countCards'}},
       {title: 'Anteil von Handys und Bevölkerung - Karte', payload: {option: {type: ChartTypeEnum.Map, value: getMapProportionOption()}, cardType: 'humanProportionCards'}},
       {title: 'Anteil von Smartphones', payload: {option: {type: ChartTypeEnum.Bar, value: getBarSmartphonesOption()}, cardType: 'smartphonesProportionCards'}}
     ])

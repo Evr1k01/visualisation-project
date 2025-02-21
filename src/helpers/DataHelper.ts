@@ -17,8 +17,8 @@ const getChartData = (key: keyof typeof chartTypes): IData[] => {
     return chartTypes[key] as IData[]
 }
 
-const textCount: string = 'Anzahl von Handys nach Ländern (2017/2018)'
-const textProportion: string = 'Anzahl von Handys pro 100 Personen (2017/2018)'
+const textCount: string = 'Anzahl der Handys nach Ländern (2017/2018)'
+const textProportion: string = 'Anzahl der Handys pro 100 Personen (2017/2018)'
 const textSmartphonesProportion: string = 'Anteil von Smartphones (50 Länder)'
 
 const tooltip: {trigger: string, showDelay?: number, transitionDuration?: 0.2} = {
